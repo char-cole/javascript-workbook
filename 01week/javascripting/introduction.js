@@ -46,7 +46,9 @@ console.log(addThese(4,900));
 function pickyAdder (aNumber, aString) {
   if (typeof(aNumber) === "number" && typeof(aString) === "string") {
     console.log("I would like to buy " + aNumber + " " + aString + "s");
-  } else console.log("Please input a number and a string to make this purchase");
+  } else {
+    console.log("Please input a number and a string to make this purchase");
+  }
 }
 pickyAdder("six hundred", "balloon")
 pickyAdder(12, "rattlesnake");
