@@ -41,25 +41,27 @@ At the end of each turn, check for a win
   diagonalWin - if board[0][0] === board[1][1] === board[2][2] etc.
 */
 
+let gameEnd = false;
+
 function horizontalWin() {
   if ( (board[0][0] === board[0][1] && board[0][0] === board[0][2] && board[0][0] === playerTurn) || (board[1][0] === board[1][1] && board[1][0] === board[1][2] && board[1][0] === playerTurn) || (board[2][0] === board[2][1] && board[2][0] === board[2][2] && board[2][0] === playerTurn) ) {
     console.log(playerTurn + " wins y'all");
-    return true;
-  } else return false;
+    let gameEnd = true;
+  }
 }
 
 function verticalWin() {
   if ( (board[0][0] === board[1][0] && board[0][0] === board[2][0] && board[0][0] === playerTurn) || (board[0][1] === board[1][1] && board[0][1] === board[2][1] && board[0][1] === playerTurn) || (board[0][2] === board[1][2] && board[0][2] === board[2][2] && board[0][2] === playerTurn) ) {
     console.log(playerTurn + " rises to the occasions")
-    return true;
-  } else return false;
+    let gameEnd = true;
+  }
 }
 
 function diagonalWin() {
   if ( (board[0][0] === board[1][1] && board[0][0] === board[2][2] && board[0][0] === playerTurn) || (board[0][2] === board[1][1] && board[0][2] === board[2][0] && board[0][2] === playerTurn) ) {
     console.log(playerTurn + " wins diagonally")
-    return true;
-  } else return false;
+    let gameEnd = true;
+  }
 }
 
 function checkForWin() {
@@ -86,8 +88,8 @@ function checkForWin() {
 function ticTacToe(row, column) {
   board[row].splice(column, 1, playerTurn);
   // checkForWin();
-  if (checkForWin()) {
-    console.log("how did we get here")
+  if (gameEnd === true) {
+    console.log("this should only appear on a win")
     return ("Congratulations " + playerTurn);
   }
   if (playerTurn === 'X') {
