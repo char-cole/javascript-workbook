@@ -12,8 +12,6 @@ let board = [
   [' ', ' ', ' ']
 ];
 
-let playerTurn = 'X';
-
 function printBoard() {
   console.log('   0  1  2');
   console.log('0 ' + board[0].join(' | '));
@@ -41,77 +39,69 @@ At the end of each turn, check for a win
   diagonalWin - if board[0][0] === board[1][1] === board[2][2] etc.
 */
 
+let playerTurn = 'X';
 let gameEnd = false;
 
 function horizontalWin() {
-  if ( (board[0][0] === board[0][1] && board[0][0] === board[0][2] && board[0][0] === playerTurn) || (board[1][0] === board[1][1] && board[1][0] === board[1][2] && board[1][0] === playerTurn) || (board[2][0] === board[2][1] && board[2][0] === board[2][2] && board[2][0] === playerTurn) ) {
-    console.log(playerTurn + " wins y'all");
-    let gameEnd = true;
+  if ((board[0][0] === board[0][1] && board[0][0] === board[0][2] && board[0][0] === playerTurn) || (board[1][0] === board[1][1] && board[1][0] === board[1][2] && board[1][0] === playerTurn) || (board[2][0] === board[2][1] && board[2][0] === board[2][2] && board[2][0] === playerTurn)) {
+    gameEnd = true;
   }
 }
 
 function verticalWin() {
-  if ( (board[0][0] === board[1][0] && board[0][0] === board[2][0] && board[0][0] === playerTurn) || (board[0][1] === board[1][1] && board[0][1] === board[2][1] && board[0][1] === playerTurn) || (board[0][2] === board[1][2] && board[0][2] === board[2][2] && board[0][2] === playerTurn) ) {
-    console.log(playerTurn + " rises to the occasions")
-    let gameEnd = true;
+  if ((board[0][0] === board[1][0] && board[0][0] === board[2][0] && board[0][0] === playerTurn) || (board[0][1] === board[1][1] && board[0][1] === board[2][1] && board[0][1] === playerTurn) || (board[0][2] === board[1][2] && board[0][2] === board[2][2] && board[0][2] === playerTurn)) {
+    gameEnd = true;
   }
 }
 
 function diagonalWin() {
-  if ( (board[0][0] === board[1][1] && board[0][0] === board[2][2] && board[0][0] === playerTurn) || (board[0][2] === board[1][1] && board[0][2] === board[2][0] && board[0][2] === playerTurn) ) {
-    console.log(playerTurn + " wins diagonally")
-    let gameEnd = true;
+  if ((board[0][0] === board[1][1] && board[0][0] === board[2][2] && board[0][0] === playerTurn) || (board[0][2] === board[1][1] && board[0][2] === board[2][0] && board[0][2] === playerTurn)) {
+    gameEnd = true;
   }
 }
 
 function checkForWin() {
-  console.log("win check");
-  if (horizontalWin) {
-    console.log("horizontal check");
-    return true;
-  } else {
-    if (verticalWin()) {
-      console.log("vertical check");
-      return true;
-    } else {
-      if (diagonalWin()) {
-        console.log("diagonal check");
-        return true;
-      } else {
-        console.log("no win")
-        return false
-      }
-    }
-  }
+  horizontalWin();
+  verticalWin();
+  diagonalWin();
 }
 
 function ticTacToe(row, column) {
-  board[row].splice(column, 1, playerTurn);
-  // checkForWin();
-  if (gameEnd === true) {
-    console.log("this should only appear on a win")
-    return ("Congratulations " + playerTurn);
-  }
-  if (playerTurn === 'X') {
-    let playerTurn = 'O';
+  if (board[row][column] === " ") {
+    board[row].splice(column, 1, playerTurn);
+    checkForWin();
+    if (gameEnd === true) {
+      console.log(" ");
+      return ("Congratulations " + playerTurn);
+    }
+    if (playerTurn === "X") {
+      playerTurn = "O";
+    } else playerTurn = "X";
   } else {
-    let playerTurn = 'X';
+    console.log(" ");
+    console.log("That space is not available!")
   }
 }
 
 function getPrompt() {
+  console.log(" ");
   printBoard();
-  console.log("It's Player " + playerTurn + "'s turn.");
-  rl.question('row: ', (row) => {
-    rl.question('column: ', (column) => {
-      ticTacToe(row, column);
-      getPrompt();
+  console.log(" ");
+  if (gameEnd === false) {
+    console.log("It's Player " + playerTurn + "'s turn.");
+    rl.question('row: ', (row) => {
+      rl.question('column: ', (column) => {
+        ticTacToe(row, column);
+        getPrompt();
+      });
     });
-  });
-
+  } else {
+    console.log(" ");
+    console.log("Victory for " + playerTurn + "!");
+    console.log(" ");
+    console.log("Ctrl+C to exit game");
+  }
 }
-
-
 
 // Tests
 
