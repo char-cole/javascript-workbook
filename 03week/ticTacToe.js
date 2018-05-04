@@ -60,31 +60,35 @@ function diagonalWin() {
   }
 }
 
-function checkForWin() {
+function checkForWin() { // run each win check, stop checking if win found
   horizontalWin();
-  verticalWin();
-  diagonalWin();
+  if (gameEnd === false) {
+    verticalWin();
+    if (gameEnd === false) {
+      diagonalWin();
+    }
+  }
 }
 
 function ticTacToe(row, column) {
-  if (board[row][column] === " ") {
-    board[row].splice(column, 1, playerTurn);
-    checkForWin();
+  if (board[row][column] === " ") { // make sure the space has not already been marked
+    board[row].splice(column, 1, playerTurn); // mark the space
+    checkForWin(); // check if the move was a winning one
     if (gameEnd === true) {
-      console.log(" ");
+      console.log(" "); // aesthetics
       return ("Congratulations " + playerTurn);
     }
-    if (playerTurn === "X") {
+    if (playerTurn === "X") { // switch turns
       playerTurn = "O";
     } else playerTurn = "X";
   } else {
-    console.log(" ");
+    console.log(" ");  // aesthetics
     console.log("That space is not available!")
   }
 }
 
 function getPrompt() {
-  console.log(" ");
+  console.log(" "); // aesthetics
   printBoard();
   console.log(" ");
   if (gameEnd === false) {
