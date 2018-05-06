@@ -13,6 +13,18 @@ let stacks = {
   c: []
 };
 
+/*
+Take input from user: origin and destin.
+Remove & store (const = .pop) last item from origin array
+  Reject move if origin array is empty
+Place stored item at end of destin array (destin.push)
+  Check legality
+    If stored >= last item, reject move
+    If destin is the same as origin, reject move
+Check for win
+  If stacks.c.length is equal to 4, game is won
+*/
+
 function printStacks() {
   console.log("a: " + stacks.a);
   console.log("b: " + stacks.b);
