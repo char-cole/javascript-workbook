@@ -25,7 +25,6 @@ Check for win
   If stacks.c.length is equal to 4, game is won
 */
 
-let hand;
 let victory = false;
 
 function printStacks() {
@@ -43,21 +42,25 @@ function isLegal() {
 }
 
 function checkForWin() {
+  // check if any stack that begins empty has all items in it
   if (stacks.b.length > 3 || stacks.c.length > 3) {
     console.log("");
     console.log("You win");
     console.log("");
-    victory = true;
+    victory = true; // global var for deciding whether game is playable
   }
 }
 
 function towersOfHanoi(startStack, endStack) {
+  // make sure two different stacks chosen and not pulling from empty stack
   if (startStack != endStack && stacks[startStack].length > 0) {
-    hand = stacks[startStack].pop();
+    let hand = stacks[startStack].pop();
+    // make sure not placing larger peg on top of smaller peg
     if (stacks[endStack].length === 0 || stacks[endStack][stacks[endStack].length - 1] > hand) {
       stacks[endStack].push(hand);
       checkForWin();
     } else {
+      // return popped peg to origin
       stacks[startStack].push(hand);
       checkForWin();
     }
@@ -65,6 +68,7 @@ function towersOfHanoi(startStack, endStack) {
 }
 
 function getPrompt() {
+  // only prompt if game hasn't been won
   if (!victory) {
   printStacks();
   rl.question('start stack: ', (startStack) => {
