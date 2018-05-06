@@ -14,16 +14,19 @@ let stacks = {
 };
 
 /*
-Take input from user: origin and destin.
-Remove & store (const = .pop) last item from origin array
-  Reject move if origin array is empty
-Place stored item at end of destin array (destin.push)
+Take input from user: startStack and endStack.
+Remove & store (const = .pop) last item from startStack
+  Reject move if startStack is empty
+Place stored item at end of endStack (endStack.push)
   Check legality
     If stored >= last item, reject move
-    If destin is the same as origin, reject move
+    If endStack is the same as startStack, reject move
 Check for win
   If stacks.c.length is equal to 4, game is won
 */
+
+let hand;
+let victory = false;
 
 function printStacks() {
   console.log("a: " + stacks.a);
@@ -32,26 +35,37 @@ function printStacks() {
 }
 
 function movePiece() {
-  // Your code here
 
 }
 
 function isLegal() {
-  // Your code here
 
 }
 
 function checkForWin() {
-  // Your code here
-
+  if (stacks.b.length > 3 || stacks.c.length > 3) {
+    console.log("");
+    console.log("You win");
+    console.log("");
+    victory = true;
+  }
 }
 
 function towersOfHanoi(startStack, endStack) {
-  // Your code here
-
+  if (startStack != endStack && stacks[startStack].length > 0) {
+    hand = stacks[startStack].pop();
+    if (stacks[endStack].length === 0 || stacks[endStack][stacks[endStack].length - 1] > hand) {
+      stacks[endStack].push(hand);
+      checkForWin();
+    } else {
+      stacks[startStack].push(hand);
+      checkForWin();
+    }
+  }
 }
 
 function getPrompt() {
+  if (!victory) {
   printStacks();
   rl.question('start stack: ', (startStack) => {
     rl.question('end stack: ', (endStack) => {
@@ -59,6 +73,7 @@ function getPrompt() {
       getPrompt();
     });
   });
+}
 }
 
 // Tests
