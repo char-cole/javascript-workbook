@@ -43,19 +43,19 @@ let playerTurn = 'X';
 let gameEnd = false;
 
 function horizontalWin() {
-  if ((board[0][0] === board[0][1] && board[0][0] === board[0][2] && board[0][0] === playerTurn) || (board[1][0] === board[1][1] && board[1][0] === board[1][2] && board[1][0] === playerTurn) || (board[2][0] === board[2][1] && board[2][0] === board[2][2] && board[2][0] === playerTurn)) {
+  if ( board[0].every(thing => thing === playerTurn) || board[1].every(thing => thing === playerTurn) || board[2].every(thing => thing === playerTurn) ) {
     gameEnd = true;
   }
 }
 
 function verticalWin() {
-  if ((board[0][0] === board[1][0] && board[0][0] === board[2][0] && board[0][0] === playerTurn) || (board[0][1] === board[1][1] && board[0][1] === board[2][1] && board[0][1] === playerTurn) || (board[0][2] === board[1][2] && board[0][2] === board[2][2] && board[0][2] === playerTurn)) {
+  if ((board[0][0] === playerTurn && board[1][0] === playerTurn && board[2][0] === playerTurn) || (board[0][1] === playerTurn && board[1][1] === playerTurn && board[2][1] === playerTurn) || (board[0][2] === playerTurn && board[1][2] === playerTurn && board[2][2] === playerTurn)) {
     gameEnd = true;
   }
 }
 
 function diagonalWin() {
-  if ((board[0][0] === board[1][1] && board[0][0] === board[2][2] && board[0][0] === playerTurn) || (board[0][2] === board[1][1] && board[0][2] === board[2][0] && board[0][2] === playerTurn)) {
+  if ((board[0][0] === playerTurn && board[1][1] === playerTurn && board[2][2] === playerTurn) || (board[0][2] === playerTurn && board[1][1] === playerTurn && board[2][0] === playerTurn)) {
     gameEnd = true;
   }
 }
@@ -103,7 +103,6 @@ function getPrompt() {
     console.log(" ");
     console.log("Victory for " + playerTurn + "!");
     console.log(" ");
-    console.log("Ctrl+C to exit game");
   }
 }
 
