@@ -22,55 +22,53 @@ Place stored item at end of endStack (endStack.push)
     If stored >= last item, reject move
     If endStack is the same as startStack, reject move
 Check for win
-  If stacks.c.length is equal to 4, game is won
+  If any array other than .a is longer than 3 items, game is won
 */
 
 let victory = false;
+let moveCount = 1;
 
 function printStacks() {
   console.log("a: " + stacks.a);
   console.log("b: " + stacks.b);
   console.log("c: " + stacks.c);
-}
-
-function movePiece() {
-
-}
-
-function isLegal() {
-
+  console.log("");
 }
 
 function checkForWin() {
-  // check if any stack that begins empty has all items in it
+  // check if any stack that begins empty now has all items in it
   if (stacks.b.length > 3 || stacks.c.length > 3) {
+    printStacks();
     console.log("");
-    console.log("You win");
+    console.log("You won in "+moveCount+" moves");
     console.log("");
     victory = true; // global var for deciding whether game is playable
   }
 }
 
 function towersOfHanoi(startStack, endStack) {
-  // make sure two different stacks chosen and not pulling from empty stack
+  // legality: make sure two different stacks chosen and not pulling from empty stack
   if (startStack != endStack && stacks[startStack].length > 0) {
+
     let hand = stacks[startStack].pop();
-    // make sure not placing larger peg on top of smaller peg
+
+    // legality: make sure not placing larger peg on top of smaller peg
     if (stacks[endStack].length === 0 || stacks[endStack][stacks[endStack].length - 1] > hand) {
+
       stacks[endStack].push(hand);
       checkForWin();
+      moveCount++;
+
     } else {
-      // return popped peg to origin
-      stacks[startStack].push(hand);
-      checkForWin();
+      stacks[startStack].push(hand); // return popped peg to original stack
     }
   }
 }
 
 function getPrompt() {
-  // only prompt if game hasn't been won
-  if (!victory) {
+  if (!victory) { // input prompt will be blocked if the game has been won
   printStacks();
+  console.log("move "+moveCount);
   rl.question('start stack: ', (startStack) => {
     rl.question('end stack: ', (endStack) => {
       towersOfHanoi(startStack, endStack);
