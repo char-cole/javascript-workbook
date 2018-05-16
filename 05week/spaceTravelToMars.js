@@ -11,8 +11,8 @@ let jobTypes = {
 
 /*
 Need to create a class Ship which contains each of the ships
-  Each ship needs the properties name, type, missionStatement, ability, crew (empty)
-  When a crew enters a ship, missionStatement changes from inability to .ability
+  Each ship needs the properties name, type, ability, crew (empty)
+  missionStatement() is a method returning the ship's ability if crewed, else "Can't perform a mission yet."
 
 Need to create a class CrewMember which contains each crew member
   Each crew needs the properties name, job, specialSkill, ship (empty)
@@ -22,6 +22,30 @@ Crew do not have ships assigned and vv
 CrewMember needs a method enterShip to assign a crew to a ship
   this should activate missionStatement ?
 */
+
+class Ship {
+  constructor(name, type, ability, crew){
+    this.name = name;
+    this.type = type;
+    this.ability = ability;
+    this.crew = crew;
+  }
+  missionStatement() {
+    if (this.crew.length < 1) {
+      return "Can't perform a mission yet."
+    } else return this.ability
+  }
+}
+
+class CrewMember {
+  constructor(name, job, specialSkill, ship){
+    this.name = name;
+    this.job = job;
+    this.specialSkill = specialSkill;
+    this.ship = ship;
+  }
+
+}
 
 //tests
 if (typeof describe === 'function'){
