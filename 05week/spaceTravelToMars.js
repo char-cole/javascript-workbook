@@ -9,7 +9,49 @@ let jobTypes = {
   programmer: 'Any Ship!'
 };
 
-// Your code here
+/*
+Need to create a class Ship
+  Each ship needs the properties (name, type, ability)
+  .crew is an empty array, to be manipulated but not given by an instantiation
+  missionStatement() is a method returning the ship's ability if crew assigned (this.crew.length > 0),
+    else "Can't perform a mission yet."
+
+Need to create a class CrewMember
+  Each crew needs the properties (name, job, specialSkill, ship)
+  .ship is initially empty
+  enterShip() is a method assigning the crew to a given ship
+    set this.ship to given ship (the whole instance)
+    push this (the whole instance) to givenship.crew
+
+Initially, crew has no value in .ship and ship has no items in .crew
+*/
+
+class Ship {
+  constructor(name, type, ability){
+    this.name = name;
+    this.type = type;
+    this.ability = ability;
+    this.crew = [];
+  }
+  missionStatement() {
+    if (this.crew.length > 0) {
+      return this.ability
+    } else return "Can't perform a mission yet."
+  }
+}
+
+class CrewMember {
+  constructor(name, job, specialSkill, ship){
+    this.name = name;
+    this.job = job;
+    this.specialSkill = specialSkill;
+    this.ship = ship;
+  }
+  enterShip(varShip) {
+    this.ship = varShip;
+    varShip.crew.push(this);
+  }
+}
 
 //tests
 if (typeof describe === 'function'){
