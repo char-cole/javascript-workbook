@@ -10,18 +10,20 @@ let jobTypes = {
 };
 
 /*
-Need to create a class Ship which contains each of the ships
-  Each ship needs the properties name, type, ability
-  crew is an empty array, to be manipulated but not given by an instantiation
-  missionStatement() is a method returning the ship's ability if crewed, else "Can't perform a mission yet."
+Need to create a class Ship
+  Each ship needs the properties (name, type, ability)
+  .crew is an empty array, to be manipulated but not given by an instantiation
+  missionStatement() is a method returning the ship's ability if crew assigned (this.crew.length > 0),
+    else "Can't perform a mission yet."
 
-Need to create a class CrewMember which contains each crew member
-  Each crew needs the properties name, job, specialSkill, ship (empty)
+Need to create a class CrewMember
+  Each crew needs the properties (name, job, specialSkill, ship)
+  .ship is initially empty
+  enterShip() is a method assigning the crew to a given ship
+    set this.ship to given ship (the whole instance)
+    push this (the whole instance) to givenship.crew
 
-Crew do not have ships assigned and vv
-
-CrewMember needs a method enterShip to assign a crew to a ship
-  this should activate missionStatement ?
+Initially, crew has no value in .ship and ship has no items in .crew
 */
 
 class Ship {
@@ -32,9 +34,9 @@ class Ship {
     this.crew = [];
   }
   missionStatement() {
-    if (this.crew.length < 1) {
-      return "Can't perform a mission yet."
-    } else return this.ability
+    if (this.crew.length > 0) {
+      return this.ability
+    } else return "Can't perform a mission yet."
   }
 }
 
