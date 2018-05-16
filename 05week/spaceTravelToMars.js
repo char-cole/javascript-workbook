@@ -11,7 +11,8 @@ let jobTypes = {
 
 /*
 Need to create a class Ship which contains each of the ships
-  Each ship needs the properties name, type, ability, crew (empty)
+  Each ship needs the properties name, type, ability
+  crew is an empty array, to be manipulated but not given by an instantiation
   missionStatement() is a method returning the ship's ability if crewed, else "Can't perform a mission yet."
 
 Need to create a class CrewMember which contains each crew member
@@ -46,7 +47,7 @@ class CrewMember {
   }
   enterShip(varShip) {
     this.ship = varShip;
-    varShip.crew.pop(this.name);
+    varShip.crew.push(this);
   }
 }
 
