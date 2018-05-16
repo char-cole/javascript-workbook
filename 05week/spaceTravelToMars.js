@@ -9,7 +9,19 @@ let jobTypes = {
   programmer: 'Any Ship!'
 };
 
-// Your code here
+/*
+Need to create a class Ship which contains each of the ships
+  Each ship needs the properties name, type, missionStatement, ability, crew (empty)
+  When a crew enters a ship, missionStatement changes from inability to .ability
+
+Need to create a class CrewMember which contains each crew member
+  Each crew needs the properties name, job, specialSkill, ship (empty)
+
+Crew do not have ships assigned and vv
+
+CrewMember needs a method enterShip to assign a crew to a ship
+  this should activate missionStatement ?
+*/
 
 //tests
 if (typeof describe === 'function'){
