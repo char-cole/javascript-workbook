@@ -24,11 +24,11 @@ CrewMember needs a method enterShip to assign a crew to a ship
 */
 
 class Ship {
-  constructor(name, type, ability, crew){
+  constructor(name, type, ability){
     this.name = name;
     this.type = type;
     this.ability = ability;
-    this.crew = crew;
+    this.crew = [];
   }
   missionStatement() {
     if (this.crew.length < 1) {
@@ -44,7 +44,10 @@ class CrewMember {
     this.specialSkill = specialSkill;
     this.ship = ship;
   }
-
+  enterShip(varShip) {
+    this.ship = varShip;
+    varShip.crew.pop(this.name);
+  }
 }
 
 //tests
