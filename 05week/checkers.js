@@ -1,5 +1,24 @@
 'use strict';
 
+/*
+Take input from player
+  two numbers, each two digits
+  .split('') each number in new var
+  var[0] is row, var[1] is col
+  first number is origin, second number is destination
+
+Origin number must contain a checker
+
+Destination number must not contain a checker
+  must be either 1/1 away or 2/2 away
+  if 1 row away, must be 1 col away
+  if 2 row away, must be 2 col away and there must be a checker 1/1 away
+
+A checker is an object ?
+
+
+*/
+
 const assert = require('assert');
 const readline = require('readline');
 const rl = readline.createInterface({
@@ -61,6 +80,23 @@ class Game {
   }
   start() {
     this.board.createGrid();
+  }
+  moveChecker(whichPiece, toWhere) {
+    const originArr = whichPiece.split('');
+    const destinArr = whichPiece.split('');
+    const ori0 = originArr[0];
+    const ori1 = originArr[1];
+    const des0 = destinArr[0];
+    const des1 = destinArr[1];
+    if ((destinArr[0] - originArr[0]) == 1) {
+      if ((destinArr[1] - originArr[1]) == 1) {
+        return true;
+      }
+    } else if ((destinArr[0] - originArr[0]) == 2) {
+      if ((destinArr[0] - originArr[0]) == 2) {
+        if (())
+      }
+    } else return false;
   }
 }
 
