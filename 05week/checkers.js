@@ -3,8 +3,8 @@
 /*
 Take input from player
   two numbers, each two digits
-  .split('') each number in new var
-  var[0] is row, var[1] is col
+  .split('') each number in new array
+  array[0] is row, array[1] is col
   first number is origin, second number is destination
 
 Origin number must contain a checker
@@ -83,20 +83,18 @@ class Game {
   }
   moveChecker(whichPiece, toWhere) {
     const originArr = whichPiece.split('');
-    const destinArr = whichPiece.split('');
-    const ori0 = originArr[0];
-    const ori1 = originArr[1];
-    const des0 = destinArr[0];
-    const des1 = destinArr[1];
-    if ((destinArr[0] - originArr[0]) == 1) {
-      if ((destinArr[1] - originArr[1]) == 1) {
-        return true;
-      }
-    } else if ((destinArr[0] - originArr[0]) == 2) {
-      if ((destinArr[0] - originArr[0]) == 2) {
-        if (())
-      }
-    } else return false;
+    const destinArr = toWhere.split('');
+    const originRow = originArr[0];
+    const originCol = originArr[1];
+    const destinRow = destinArr[0];
+    const destinCol = destinArr[1];
+    if (this.board.grid[originRow][originCol] && !this.board.grid[destinRow][destinCol]) {
+      if (Math.abs(destinRow - originRow) == 1 && Math.abs(destinCol - originCol) == 1) {
+        // move a checker
+      } else if (Math.abs(destinRow - originRow) == 2 && Math.abs(destinCol - originCol) == 2) {
+          if (this.board.grid[originRow + 1][originCol + 1])
+      } else console.log('invalid move')
+    }
   }
 }
 
