@@ -82,17 +82,32 @@ class Game {
     this.board.createGrid();
   }
   moveChecker(whichPiece, toWhere) {
+    // make array of each input number
     const originArr = whichPiece.split('');
     const destinArr = toWhere.split('');
+    // make a variable of everything being reused for readability
     const originRow = originArr[0];
     const originCol = originArr[1];
     const destinRow = destinArr[0];
     const destinCol = destinArr[1];
+    const rowDifference = destinRow - originRow;
+    const colDifference = destinCol - originCol;
+    const rowAbs = Math.abs(rowDifference);
+    const colAbs = Math.abs(colDifference);
+    // store the location immediately between whichPiece and toWhere with math expressions, retaining positive/negative
+    const jumpedSpot = this.board.grid[originRow + (rowDifference / 2)][originCol + (colDifference / 2)];
+
+    // first ensure there's a checker at whichPiece and no checker at toWhere
     if (this.board.grid[originRow][originCol] && !this.board.grid[destinRow][destinCol]) {
-      if (Math.abs(destinRow - originRow) == 1 && Math.abs(destinCol - originCol) == 1) {
+
+      // regular move, 1 space diagonally
+      if (rowAbs == 1 && colAbs == 1) {
         // move a checker
-      } else if (Math.abs(destinRow - originRow) == 2 && Math.abs(destinCol - originCol) == 2) {
-          if (this.board.grid[originRow + 1][originCol + 1])
+
+        // kill move, jumping 2 spaces diagonally over another checker
+      } else if (rowAbs == 2 && colAbs == 2 && jumpedSpot) {
+        // move & kill
+
       } else console.log('invalid move')
     }
   }
