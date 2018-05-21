@@ -27,13 +27,18 @@ const rl = readline.createInterface({
 });
 
 
-function Checker() {
-  // Your code here
+class Checker {
+  constructor(row, col) {
+    this.row = row;
+    this.col = col;
+    this.symbol = "O";
+  }
 }
 
 class Board {
   constructor() {
-    this.grid = []
+    this.grid = [];
+    this.checkers = [];
   }
   // method that creates an 8x8 array, filled with null values
   createGrid() {
