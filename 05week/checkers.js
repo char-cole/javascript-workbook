@@ -14,7 +14,8 @@ Destination number must not contain a checker
   if 1 row away, must be 1 col away
   if 2 row away, must be 2 col away and there must be a checker 1/1 away
 
-A checker is an object such that any occupied space has a .symbol
+A checker is an object with a .symbol string
+  the .symbol is pushed into the board array to visually display location of each checkers
 
 */
 
@@ -27,10 +28,8 @@ const rl = readline.createInterface({
 
 
 class Checker {
-  constructor(row, col) {
-    this.row = row;
-    this.col = col;
-    this.symbol = "O";
+  constructor() {
+    this.symbol = "@";
   }
 }
 
@@ -59,9 +58,8 @@ class Board {
         this.grid[rowIndex].forEach((colItem, colIndex) => {
           // skip every other square - for even rows, skip even columns
           if (colIndex % 2 == 1) {
-            // make a new Checker, place it, and push it to the game's storage array
-            const newChecker = new Checker(rowIndex, colIndex);
-            this.grid[rowIndex][colIndex] = newChecker;
+            // create a new Checker and place it, then push a new anonymous Checker to storage array
+            this.grid[rowIndex][colIndex] = new Checker;
             game.board.checkers.push(new Checker);
           }
         })
@@ -70,8 +68,7 @@ class Board {
         this.grid[rowIndex].forEach((colItem, colIndex) => {
           // skip the odd columns in these rows
           if (colIndex % 2 == 0) {
-            const newChecker = new Checker(rowIndex, colIndex);
-            this.grid[rowIndex][colIndex] = newChecker;
+            this.grid[rowIndex][colIndex] = new Checker;
             game.board.checkers.push(new Checker);
           }
         })
@@ -153,7 +150,6 @@ class Game {
           const hand = checkerStart;
           this.board.grid[originRow][originCol] = null;
           this.board.grid[destinRow][destinCol] = checkerStart;
-          console.log(game.board.checkers.length);
         } else console.log('Only move 2 spaces if jumping another checker')
       } else console.log('Checkers may only move 1 space diagonally, or 2 spaces diagonally by jumping another checker')
     }
