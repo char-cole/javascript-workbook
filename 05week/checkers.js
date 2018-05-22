@@ -3,20 +3,20 @@
 /*
 Take input from player
   two numbers, each two digits
-  .split('') each number in new array
+  .split('') each number into new array
   array[0] is row, array[1] is col
   first number is origin, second number is destination
 
 Move checker by setting array item at origin coords to null, then creating a checker a destination coords
   Origin number must contain a checker
   Destination number must not contain a checker
-  must be diagonal move, either 1 space or jump
+  must be diagonal move, either 1 space or jump 2 spaces
     if 1 row away, must be 1 col away
     if 2 row away, must be 2 col away and there must be a checker 1/1 away
+  Currently able to move forward or backward and jump any other checker
 
 A checker is an object with a .symbol string
   the .symbol is pushed into the board array to visually display location of each checkers
-
 */
 
 const assert = require('assert');
@@ -75,7 +75,7 @@ class Board {
     console.log(string);
   }
   populateGrid() {
-    // find the six rows (0, 1, 2, 5, 6 ,7) that start with checkers and populate them
+    // find the six rows (0, 1, 2, 5, 6, 7) that start with checkers and populate them
     this.grid.forEach((rowItem, rowIndex) => {
       // select the even rows, ignoring the middle of the board
       if (rowIndex == 0 || rowIndex == 2 || rowIndex == 6) {
@@ -136,9 +136,8 @@ class Game {
         // store the location immediately between whichPiece and toWhere with math expressions, retaining positive/negative
         const jumpedRow = (rowDifference / 2) + originRow;
         const jumpedCol = (colDifference / 2) + originCol;
-        const jumpedSpot = game.board.grid[jumpedRow][jumpedCol];
         // ensure there is a checker at that spot
-        if (jumpedSpot) {
+        if (game.board.grid[jumpedRow][jumpedCol]) {
           // delete the checker immediately between whichPieceand toWhere, remove from storage array
           game.board.grid[jumpedRow][jumpedCol] = null;
           game.board.checkers.pop();
