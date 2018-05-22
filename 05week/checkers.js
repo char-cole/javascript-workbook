@@ -7,12 +7,12 @@ Take input from player
   array[0] is row, array[1] is col
   first number is origin, second number is destination
 
-Origin number must contain a checker
-
-Destination number must not contain a checker
-  must be either 1/1 away or 2/2 away
-  if 1 row away, must be 1 col away
-  if 2 row away, must be 2 col away and there must be a checker 1/1 away
+Move checker by setting array item at origin coords to null, then creating a checker a destination coords
+  Origin number must contain a checker
+  Destination number must not contain a checker
+  must be diagonal move, either 1 space or jump
+    if 1 row away, must be 1 col away
+    if 2 row away, must be 2 col away and there must be a checker 1/1 away
 
 A checker is an object with a .symbol string
   the .symbol is pushed into the board array to visually display location of each checkers
@@ -50,6 +50,30 @@ class Board {
     }
     this.populateGrid();
   }
+  viewGrid() {
+    // add our column numbers
+    let string = "  0 1 2 3 4 5 6 7\n";
+    for (let row = 0; row < 8; row++) {
+      // we start with our row number in our array
+      const rowOfCheckers = [row];
+      // a loop within a loop
+      for (let column = 0; column < 8; column++) {
+        // if the location is "truthy" (contains a checker piece, in this case)
+        if (this.grid[row][column]) {
+          // push the symbol of the check in that location into the array
+          rowOfCheckers.push(this.grid[row][column].symbol);
+        } else {
+          // just push in a blank space
+          rowOfCheckers.push(' ');
+        }
+      }
+      // join the rowOfCheckers array to a string, separated by a space
+      string += rowOfCheckers.join(' ');
+      // add a 'new line'
+      string += "\n";
+    }
+    console.log(string);
+  }
   populateGrid() {
     // find the six rows (0, 1, 2, 5, 6 ,7) that start with checkers and populate them
     this.grid.forEach((rowItem, rowIndex) => {
@@ -75,33 +99,6 @@ class Board {
       }
     })
   }
-
-  viewGrid() {
-    // add our column numbers
-    let string = "  0 1 2 3 4 5 6 7\n";
-    for (let row = 0; row < 8; row++) {
-      // we start with our row number in our array
-      const rowOfCheckers = [row];
-      // a loop within a loop
-      for (let column = 0; column < 8; column++) {
-        // if the location is "truthy" (contains a checker piece, in this case)
-        if (this.grid[row][column]) {
-          // push the symbol of the check in that location into the array
-          rowOfCheckers.push(this.grid[row][column].symbol);
-        } else {
-          // just push in a blank space
-          rowOfCheckers.push(' ');
-        }
-      }
-      // join the rowOfCheckers array to a string, separated by a space
-      string += rowOfCheckers.join(' ');
-      // add a 'new line'
-      string += "\n";
-    }
-    console.log(string);
-  }
-
-  // Your code here
 }
 
 class Game {
@@ -112,7 +109,7 @@ class Game {
     this.board.createGrid();
   }
   moveChecker(whichPiece, toWhere) {
-    // make array of each input number
+    // make array of each input number. whichPiece is origin and toWhere is destination
     const originArr = whichPiece.split('');
     const destinArr = toWhere.split('');
     // make a variable of everything being reused for readability
@@ -124,18 +121,17 @@ class Game {
     const colDifference = destinCol - originCol;
     const rowAbs = Math.abs(rowDifference);
     const colAbs = Math.abs(colDifference);
-    const checkerStart = this.board.grid[originRow][originCol];
-    const checkerEnd = this.board.grid[destinRow][destinCol];
 
-    // first ensure there's a checker at whichPiece and no checker at toWhere
-    if (checkerStart && !checkerEnd) {
+    // first ensure there's a checker at origin and no checker at destination
+    if (this.board.grid[originRow][originCol] && !this.board.grid[destinRow][destinCol]) {
+
       // regular move, 1 space diagonally
       if (rowAbs == 1 && colAbs == 1) {
-        const hand = checkerStart;
+        // delete original checker and create new one at destination
         this.board.grid[originRow][originCol] = null;
-        this.board.grid[destinRow][destinCol] = checkerStart;
-        console.log(game.board.checkers.length);
-      // kill move, jumping 2 spaces diagonally over another checker
+        this.board.grid[destinRow][destinCol] = new Checker;
+
+        // kill move, jumping 2 spaces diagonally over another checker
       } else if (rowAbs == 2 && colAbs == 2) {
         // store the location immediately between whichPiece and toWhere with math expressions, retaining positive/negative
         const jumpedRow = (rowDifference / 2) + originRow;
@@ -146,13 +142,13 @@ class Game {
           // delete the checker immediately between whichPieceand toWhere, remove from storage array
           game.board.grid[jumpedRow][jumpedCol] = null;
           game.board.checkers.pop();
-          // move the checker to destination
-          const hand = checkerStart;
+          // delete checker at origin, create checker at destination
           this.board.grid[originRow][originCol] = null;
-          this.board.grid[destinRow][destinCol] = checkerStart;
+          this.board.grid[destinRow][destinCol] = new Checker;
         } else console.log('Only move 2 spaces if jumping another checker')
+
       } else console.log('Checkers may only move 1 space diagonally, or 2 spaces diagonally by jumping another checker')
-    }
+    } else console.log('Select a checker, then an empty location')
   }
 }
 
