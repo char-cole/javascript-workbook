@@ -52,45 +52,31 @@ class Board {
     this.populateGrid();
   }
   populateGrid() {
-    this.grid[0].forEach((item, index, array) => {
-      if (index % 2 == 0) {
-        let newChecker = new Checker(0, index);
-        this.grid[0][index] = newChecker;
-        game.board.checkers.push(newChecker);
+    // find the six rows (0, 1, 2, 5, 6 ,7) that start with checkers and populate them
+    this.grid.forEach((rowItem, rowIndex) => {
+      // select the even rows, ignoring the middle of the board
+      if (rowIndex == 0 || rowIndex == 2 || rowIndex == 6) {
+        this.grid[rowIndex].forEach((colItem, colIndex) => {
+          // skip every other square - for even rows, skip odd columns
+          if (colIndex % 2 == 0) {
+            // make a new Checker, place it, and push it to the game's storage array
+            const newChecker = new Checker(rowIndex, colIndex);
+            this.grid[rowIndex][colIndex] = newChecker;
+            game.board.checkers.push(newChecker);
+          }
+        })
+      // select the odd rows, ignoring the middle
+      } else if (rowIndex == 1 || rowIndex == 5 || rowIndex == 7) {
+        this.grid[rowIndex].forEach((colItem, colIndex) => {
+          // skip the even columns in these rows
+          if (colIndex % 2 == 1) {
+            const newChecker = new Checker(rowIndex, colIndex);
+            this.grid[rowIndex][colIndex] = newChecker;
+            game.board.checkers.push(newChecker);
+          }
+        })
       }
-    });
-    this.grid[1].forEach((item, index, array) => {
-      if (index % 2 == 1) {
-        let newChecker = new Checker(1, index);
-        this.grid[1][index] = newChecker;
-        game.board.checkers.push(newChecker);
-      }
-    });
-    this.grid[2].forEach((item, index, array) => {
-      if (index % 2 == 0) {
-        let newChecker = new Checker(2, index);
-        this.grid[2][index] = newChecker;
-        game.board.checkers.push(newChecker);      }
-    });
-    this.grid[5].forEach((item, index, array) => {
-      if (index % 2 == 1) {
-        let newChecker = new Checker(5, index);
-        this.grid[5][index] = newChecker;
-        game.board.checkers.push(newChecker);      }
-    });
-    this.grid[6].forEach((item, index, array) => {
-      if (index % 2 == 0) {
-        let newChecker = new Checker(6, index);
-        this.grid[6][index] = newChecker;
-        game.board.checkers.push(newChecker);      }
-    });
-    this.grid[7].forEach((item, index, array) => {
-      if (index % 2 == 1) {
-        let newChecker = new Checker(7, index);
-        this.grid[7][index] = newChecker;
-        game.board.checkers.push(newChecker);
-      }
-    });
+    })
   }
 
   viewGrid() {
