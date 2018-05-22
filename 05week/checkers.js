@@ -1,5 +1,24 @@
 'use strict';
 
+/*
+Take input from player
+  two numbers, each two digits
+  .split('') each number into new array
+  array[0] is row, array[1] is col
+  first number is origin, second number is destination
+
+Move checker by setting array item at origin coords to null, then creating a checker a destination coords
+  Origin number must contain a checker
+  Destination number must not contain a checker
+  must be diagonal move, either 1 space or jump 2 spaces
+    if 1 row away, must be 1 col away
+    if 2 row away, must be 2 col away and there must be a checker 1/1 away
+  Currently able to move forward or backward and jump any other checker
+
+A checker is an object with a .symbol string
+  the .symbol is pushed into the board array to visually display location of each checkers
+*/
+
 const assert = require('assert');
 const readline = require('readline');
 const rl = readline.createInterface({
@@ -8,13 +27,16 @@ const rl = readline.createInterface({
 });
 
 
-function Checker() {
-  // Your code here
+class Checker {
+  constructor() {
+    this.symbol = "@";
+  }
 }
 
 class Board {
   constructor() {
-    this.grid = []
+    this.grid = [];
+    this.checkers = [];
   }
   // method that creates an 8x8 array, filled with null values
   createGrid() {
@@ -26,6 +48,7 @@ class Board {
         this.grid[row].push(null);
       }
     }
+    this.populateGrid();
   }
   viewGrid() {
     // add our column numbers
@@ -51,8 +74,31 @@ class Board {
     }
     console.log(string);
   }
-
-  // Your code here
+  populateGrid() {
+    // find the six rows (0, 1, 2, 5, 6, 7) that start with checkers and populate them
+    this.grid.forEach((rowItem, rowIndex) => {
+      // select the even rows, ignoring the middle of the board
+      if (rowIndex == 0 || rowIndex == 2 || rowIndex == 6) {
+        this.grid[rowIndex].forEach((colItem, colIndex) => {
+          // skip every other square - for even rows, skip even columns
+          if (colIndex % 2 == 1) {
+            // create a new Checker and place it, then push a new anonymous Checker to storage array
+            this.grid[rowIndex][colIndex] = new Checker;
+            game.board.checkers.push(new Checker);
+          }
+        })
+        // select the odd rows, ignoring the middle
+      } else if (rowIndex == 1 || rowIndex == 5 || rowIndex == 7) {
+        this.grid[rowIndex].forEach((colItem, colIndex) => {
+          // skip the odd columns in these rows
+          if (colIndex % 2 == 0) {
+            this.grid[rowIndex][colIndex] = new Checker;
+            game.board.checkers.push(new Checker);
+          }
+        })
+      }
+    })
+  }
 }
 
 class Game {
@@ -61,6 +107,47 @@ class Game {
   }
   start() {
     this.board.createGrid();
+  }
+  moveChecker(whichPiece, toWhere) {
+    // make array of each input number. whichPiece is origin and toWhere is destination
+    const originArr = whichPiece.split('');
+    const destinArr = toWhere.split('');
+    // make a variable of everything being reused for readability
+    const originRow = parseInt(originArr[0]);
+    const originCol = parseInt(originArr[1]);
+    const destinRow = parseInt(destinArr[0]);
+    const destinCol = parseInt(destinArr[1]);
+    const rowDifference = destinRow - originRow;
+    const colDifference = destinCol - originCol;
+    const rowAbs = Math.abs(rowDifference);
+    const colAbs = Math.abs(colDifference);
+
+    // first ensure there's a checker at origin and no checker at destination
+    if (this.board.grid[originRow][originCol] && !this.board.grid[destinRow][destinCol]) {
+
+      // regular move, 1 space diagonally
+      if (rowAbs == 1 && colAbs == 1) {
+        // delete original checker and create new one at destination
+        this.board.grid[originRow][originCol] = null;
+        this.board.grid[destinRow][destinCol] = new Checker;
+
+        // kill move, jumping 2 spaces diagonally over another checker
+      } else if (rowAbs == 2 && colAbs == 2) {
+        // store the location immediately between whichPiece and toWhere with math expressions, retaining positive/negative
+        const jumpedRow = (rowDifference / 2) + originRow;
+        const jumpedCol = (colDifference / 2) + originCol;
+        // ensure there is a checker at that spot
+        if (game.board.grid[jumpedRow][jumpedCol]) {
+          // delete the checker immediately between whichPieceand toWhere, remove from storage array
+          game.board.grid[jumpedRow][jumpedCol] = null;
+          game.board.checkers.pop();
+          // delete checker at origin, create checker at destination
+          this.board.grid[originRow][originCol] = null;
+          this.board.grid[destinRow][destinCol] = new Checker;
+        } else console.log('Only move 2 spaces if jumping another checker')
+
+      } else console.log('Checkers may only move 1 space diagonally, or 2 spaces diagonally by jumping another checker')
+    } else console.log('Select a checker, then an empty location')
   }
 }
 
