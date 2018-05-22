@@ -57,22 +57,22 @@ class Board {
       // select the even rows, ignoring the middle of the board
       if (rowIndex == 0 || rowIndex == 2 || rowIndex == 6) {
         this.grid[rowIndex].forEach((colItem, colIndex) => {
-          // skip every other square - for even rows, skip odd columns
-          if (colIndex % 2 == 0) {
+          // skip every other square - for even rows, skip even columns
+          if (colIndex % 2 == 1) {
             // make a new Checker, place it, and push it to the game's storage array
             const newChecker = new Checker(rowIndex, colIndex);
             this.grid[rowIndex][colIndex] = newChecker;
-            game.board.checkers.push(newChecker);
+            game.board.checkers.push(new Checker);
           }
         })
         // select the odd rows, ignoring the middle
       } else if (rowIndex == 1 || rowIndex == 5 || rowIndex == 7) {
         this.grid[rowIndex].forEach((colItem, colIndex) => {
-          // skip the even columns in these rows
-          if (colIndex % 2 == 1) {
+          // skip the odd columns in these rows
+          if (colIndex % 2 == 0) {
             const newChecker = new Checker(rowIndex, colIndex);
             this.grid[rowIndex][colIndex] = newChecker;
-            game.board.checkers.push(newChecker);
+            game.board.checkers.push(new Checker);
           }
         })
       }
@@ -115,87 +115,93 @@ class Game {
     this.board.createGrid();
   }
   moveChecker(whichPiece, toWhere) {
-      // make array of each input number
-      const originArr = whichPiece.split('');
-      const destinArr = toWhere.split('');
-      // make a variable of everything being reused for readability
-      const originRow = parseInt(originArr[0]);
-      const originCol = parseInt(originArr[1]);
-      const destinRow = parseInt(destinArr[0]);
-      const destinCol = parseInt(destinArr[1]);
-      const rowDifference = destinRow - originRow;
-      const colDifference = destinCol - originCol;
-      const rowAbs = Math.abs(rowDifference);
-      const colAbs = Math.abs(colDifference);
-      const checkerStart = this.board.grid[originRow][originCol];
-      const checkerEnd = this.board.grid[destinRow][destinCol];
+    // make array of each input number
+    const originArr = whichPiece.split('');
+    const destinArr = toWhere.split('');
+    // make a variable of everything being reused for readability
+    const originRow = parseInt(originArr[0]);
+    const originCol = parseInt(originArr[1]);
+    const destinRow = parseInt(destinArr[0]);
+    const destinCol = parseInt(destinArr[1]);
+    const rowDifference = destinRow - originRow;
+    const colDifference = destinCol - originCol;
+    const rowAbs = Math.abs(rowDifference);
+    const colAbs = Math.abs(colDifference);
+    const checkerStart = this.board.grid[originRow][originCol];
+    const checkerEnd = this.board.grid[destinRow][destinCol];
 
-      // first ensure there's a checker at whichPiece and no checker at toWhere
-      if (this.board.grid[originRow][originCol] && !this.board.grid[destinRow][destinCol]) {
-
-        // regular move, 1 space diagonally
-        if (rowAbs == 1 && colAbs == 1) {
+    // first ensure there's a checker at whichPiece and no checker at toWhere
+    if (checkerStart && !checkerEnd) {
+      // regular move, 1 space diagonally
+      if (rowAbs == 1 && colAbs == 1) {
+        const hand = checkerStart;
+        this.board.grid[originRow][originCol] = null;
+        this.board.grid[destinRow][destinCol] = checkerStart;
+        console.log(game.board.checkers.length);
+      // kill move, jumping 2 spaces diagonally over another checker
+      } else if (rowAbs == 2 && colAbs == 2) {
+        // store the location immediately between whichPiece and toWhere with math expressions, retaining positive/negative
+        const jumpedRow = (rowDifference / 2) + originRow;
+        const jumpedCol = (colDifference / 2) + originCol;
+        const jumpedSpot = game.board.grid[jumpedRow][jumpedCol];
+        // ensure there is a checker at that spot
+        if (jumpedSpot) {
+          // delete the checker immediately between whichPieceand toWhere, remove from storage array
+          game.board.grid[jumpedRow][jumpedCol] = null;
+          game.board.checkers.pop();
+          // move the checker to destination
           const hand = checkerStart;
-          console.log(checkerStart);
           this.board.grid[originRow][originCol] = null;
           this.board.grid[destinRow][destinCol] = checkerStart;
-          console.log(this.board.grid[destinRow][destinCol]);
-          console.log(this.board.grid[originRow][originCol]);
+          console.log(game.board.checkers.length);
+        } else console.log('Only move 2 spaces if jumping another checker')
+      } else console.log('Checkers may only move 1 space diagonally, or 2 spaces diagonally by jumping another checker')
+    }
+  }
+}
 
-          // kill move, jumping 2 spaces diagonally over another checker
-        } else if (rowAbs == 2 && colAbs == 2 && jumpedSpot) {
-          // store the location immediately between whichPiece and toWhere with math expressions, retaining positive/negative
-          const jumpedRow = (rowDifference / 2) + originRow;
-          const jumpedCol = (colDifference / 2) + originCol;
-          const jumpedSpot = this.board.grid[jumpedRow][jumpedCol];
+function getPrompt() {
+  game.board.viewGrid();
+  rl.question('which piece?: ', (whichPiece) => {
+    rl.question('to where?: ', (toWhere) => {
+      game.moveChecker(whichPiece, toWhere);
+      getPrompt();
+    });
+  });
+}
 
-            } else console.log('invalid move')
-          }
-        }
-      }
-
-      function getPrompt() {
-        game.board.viewGrid();
-        rl.question('which piece?: ', (whichPiece) => {
-          rl.question('to where?: ', (toWhere) => {
-            game.moveChecker(whichPiece, toWhere);
-            getPrompt();
-          });
-        });
-      }
-
-      const game = new Game();
-      game.start();
+const game = new Game();
+game.start();
 
 
-      // Tests
-      if (typeof describe === 'function') {
-        describe('Game', () => {
-          it('should have a board', () => {
-            assert.equal(game.board.constructor.name, 'Board');
-          });
-          it('board should have 24 checkers', () => {
-            assert.equal(game.board.checkers.length, 24);
-          });
-        });
+// Tests
+if (typeof describe === 'function') {
+  describe('Game', () => {
+    it('should have a board', () => {
+      assert.equal(game.board.constructor.name, 'Board');
+    });
+    it('board should have 24 checkers', () => {
+      assert.equal(game.board.checkers.length, 24);
+    });
+  });
 
-        describe('Game.moveChecker()', () => {
-          it('should move a checker', () => {
-            assert(!game.board.grid[4][1]);
-            game.moveChecker('50', '41');
-            assert(game.board.grid[4][1]);
-            game.moveChecker('21', '30');
-            assert(game.board.grid[3][0]);
-            game.moveChecker('52', '43');
-            assert(game.board.grid[4][3]);
-          });
-          it('should be able to jump over and kill another checker', () => {
-            game.moveChecker('30', '52');
-            assert(game.board.grid[5][2]);
-            assert(!game.board.grid[4][1]);
-            assert.equal(game.board.checkers.length, 23);
-          });
-        });
-      } else {
-        getPrompt();
-      }
+  describe('Game.moveChecker()', () => {
+    it('should move a checker', () => {
+      assert(!game.board.grid[4][1]);
+      game.moveChecker('50', '41');
+      assert(game.board.grid[4][1]);
+      game.moveChecker('21', '30');
+      assert(game.board.grid[3][0]);
+      game.moveChecker('52', '43');
+      assert(game.board.grid[4][3]);
+    });
+    it('should be able to jump over and kill another checker', () => {
+      game.moveChecker('30', '52');
+      assert(game.board.grid[5][2]);
+      assert(!game.board.grid[4][1]);
+      assert.equal(game.board.checkers.length, 23);
+    });
+  });
+} else {
+  getPrompt();
+}
