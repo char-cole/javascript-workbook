@@ -14,8 +14,7 @@ Destination number must not contain a checker
   if 1 row away, must be 1 col away
   if 2 row away, must be 2 col away and there must be a checker 1/1 away
 
-A checker is an object ?
-
+A checker is an object such that any occupied space has a .symbol
 
 */
 
@@ -50,7 +49,50 @@ class Board {
         this.grid[row].push(null);
       }
     }
+    this.populateGrid();
   }
+  populateGrid() {
+    this.grid[0].forEach((item, index, array) => {
+      if (index % 2 == 0) {
+        let newChecker = new Checker(0, index);
+        this.grid[0][index] = newChecker;
+        game.board.checkers.push(newChecker);
+      }
+    });
+    this.grid[1].forEach((item, index, array) => {
+      if (index % 2 == 1) {
+        let newChecker = new Checker(1, index);
+        this.grid[1][index] = newChecker;
+        game.board.checkers.push(newChecker);
+      }
+    });
+    this.grid[2].forEach((item, index, array) => {
+      if (index % 2 == 0) {
+        let newChecker = new Checker(2, index);
+        this.grid[2][index] = newChecker;
+        game.board.checkers.push(newChecker);      }
+    });
+    this.grid[5].forEach((item, index, array) => {
+      if (index % 2 == 1) {
+        let newChecker = new Checker(5, index);
+        this.grid[5][index] = newChecker;
+        game.board.checkers.push(newChecker);      }
+    });
+    this.grid[6].forEach((item, index, array) => {
+      if (index % 2 == 0) {
+        let newChecker = new Checker(6, index);
+        this.grid[6][index] = newChecker;
+        game.board.checkers.push(newChecker);      }
+    });
+    this.grid[7].forEach((item, index, array) => {
+      if (index % 2 == 1) {
+        let newChecker = new Checker(7, index);
+        this.grid[7][index] = newChecker;
+        game.board.checkers.push(newChecker);
+      }
+    });
+  }
+
   viewGrid() {
     // add our column numbers
     let string = "  0 1 2 3 4 5 6 7\n";
