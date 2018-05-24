@@ -6,9 +6,8 @@ const strNums = ["1","4","1","5","9","2","6","5","3","5","8","9","7","9","3","2"
 const nums = strNums.map(item => Number(item));
 
 // Find the sum of the even values
-const sumEvens;
-
-console.log(sumEvens);s
+const sumEvens = nums.filter(item => item%2 == 0).reduce((total, current) => total + current);
+console.log(sumEvens);
 
 // Return an object with counts for each number. The key
 // should indicate the number and the value should indicate
@@ -29,7 +28,42 @@ console.log(sumEvens);s
 //
 // create a similar object for the pi array.
 
-const numCount = {};
+const numCount = {
+  0: 0,
+  1: 0,
+  2: 0,
+  3: 0,
+  4: 0,
+  5: 0,
+  6: 0,
+  7: 0,
+  8: 0,
+  9: 0
+};
+
+nums.forEach(item => {
+  if (item == 0) {
+    numCount['0']++;
+  } else if (item == 1) {
+    numCount['1']++;
+  } else if (item == 2) {
+    numCount['2']++;
+  } else if (item == 3) {
+    numCount['3']++;
+  } else if (item == 4) {
+    numCount['4']++;
+  } else if (item == 5) {
+    numCount['5']++;
+  } else if (item == 6) {
+    numCount['6']++;
+  } else if (item == 7) {
+    numCount['7']++;
+  } else if (item == 8) {
+    numCount['8']++;
+  } else if (item == 9) {
+    numCount['9']++;
+  }
+});
 
 console.log(numCount)
 
