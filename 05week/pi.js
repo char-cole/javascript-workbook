@@ -41,29 +41,7 @@ const numCount = {
   9: 0
 };
 
-nums.forEach(item => {
-  if (item == 0) {
-    numCount['0']++;
-  } else if (item == 1) {
-    numCount['1']++;
-  } else if (item == 2) {
-    numCount['2']++;
-  } else if (item == 3) {
-    numCount['3']++;
-  } else if (item == 4) {
-    numCount['4']++;
-  } else if (item == 5) {
-    numCount['5']++;
-  } else if (item == 6) {
-    numCount['6']++;
-  } else if (item == 7) {
-    numCount['7']++;
-  } else if (item == 8) {
-    numCount['8']++;
-  } else if (item == 9) {
-    numCount['9']++;
-  }
-});
+nums.forEach(item => numCount[item]++);
 
 console.log(numCount)
 
