@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import "./styles.css";
 
 class App extends Component {
   constructor(props){
@@ -11,26 +12,52 @@ class App extends Component {
       }
   }
 
-
   handleInputChange(e) {
       this.setState({inputValue: e.target.value})
     }
 
-  handleAdd() {
-    this.state.listItems.push(this.state.inputValue);
-    this.setState({this.state.listItems});
+  handleAdd(e) {
+    if (this.state.inputValue !== "") {
+      const newItem = {
+        text: this.state.inputValue,
+        key: Date.now()
+      };
+
+      this.setState((prevState) => {
+        return {
+          listItems: prevState.listItems.concat(newItem)
+        };
+      });
+
+      this.setState({inputValue: ""});
+    }
+
+    console.log(this.state.listItems);
+
+    e.preventDefault();
+  }
+
+  handleCreate(item) {
+    return <li key={item.key}>{item.text}</li>
   }
 
   render() {
+    const todoEntries = this.state.listItems;
+    const populatedList = todoEntries.map(this.handleCreate);
     return (
       <div className="App">
-        <h1>To Do:</h1>
+        <h1>TO DO</h1>
         <div>
-        <input type="text"
-            value={this.state.inputValue}
-            onChange={(e)=> this.handleInputChange(e)}
-        />
-        <button onClick={()=> this.handleAdd()}>Add to list</button>
+          <ul className="theList">
+              {populatedList}
+          </ul>
+          <form onSubmit={(e)=>this.handleAdd(e)}>
+          <input type="text"
+              value={this.state.inputValue}
+              onChange={(e)=> this.handleInputChange(e)}
+          />
+          <button>Add to list</button>
+          </form>
         </div>
       </div>
     );
