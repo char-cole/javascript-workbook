@@ -3,6 +3,22 @@ import logo from './logo.svg';
 import './App.css';
 import "./styles.css";
 
+// Code Plan!
+
+// Write out the user events that you’ll be using
+// Write out what you’ll be storing in the state
+// Write out where you’ll update the state and with what data
+
+// Events: add item to list, check off item
+  // add item: change text field (onChange), submit (onClick or onSubmit)
+  // check off item: click item (onClick)
+
+// State will store inputValue as initially empty string, listItems as initially empty array (of strings)
+
+// inputValue will change every time the user changes what's in the text field (typing/deleting)
+  // will also change (empty) when submitted
+// listItems will only change when an input is submitted, will take the input string as a new element in the array
+
 class App extends Component {
   constructor(props){
       super(props);
@@ -38,7 +54,9 @@ class App extends Component {
   }
 
   handleCreate(item) {
-    return <li key={item.key}>{item.text}</li>
+    return <li
+    // onClick={() => this.finishItem(item.key)}
+      key={item.key}>{item.text}</li>
   }
 
   render() {
@@ -65,19 +83,6 @@ class App extends Component {
 }
 
 export default App;
-
-// Write out the user events that you’ll be using
-// Write out what you’ll be storing in the state
-// Write out where you’ll update the state and with what data
-
-// Events: add item to list, check off item
-  // onChange (text entry), onClick (submit button), onClick (check off)
-
-// State will store inputValue, listItems as array of strings
-
-// onChange will update state.inputValue, onClick / submit will .push() items to listItems, onClick / complete will strikethrough items
-
-// ----
 
 // This is the example code given in class
 /*
