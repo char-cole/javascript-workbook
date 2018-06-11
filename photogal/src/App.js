@@ -10,19 +10,13 @@ class App extends Component {
 
   renderImage(imageURL) {
     return (
-      <div>
-        <img src={imageURL} />
+      <div className="imageHolder">
+        <img src={imageURL.source} alt={imageURL.alt} />
       </div>
     );
   }
 
   render() {
-    const urls = [
-      "https://imgur.com/Vk4wrtv",
-      "https://imgur.com/EFEKzqd",
-      "https://imgur.com/KKgfLZa"
-    ];
-
     return (
       <div className="imageGallery">
         <div className="displayImages">
