@@ -1,3 +1,12 @@
+.imageGallery {
+  height: 100%;
+  padding: 50px 0;
+  /* background: linear-gradient(#d4e1f7, #b3bccc); */
+}
+
+header {
+  text-align: center;
+}
 
 .imageHolder {
   max-width: 200px;
@@ -12,9 +21,16 @@ img {
   box-shadow: 0 0 4px grey;
 }
 
+img:hover {
+  -ms-transform: scale(1.1, 1.1); /* IE 9 */
+  -webkit-transform: scale(1.1, 1.1); /* Safari */
+  transform: scale(1.1, 1.1);
+  transition-duration: .4s;
+}
+
 .grid-container {
   width: 90%;
-  margin: 25px auto 0;
+  margin: 0 auto;
   display: grid;
   grid-row-gap: 20px;
   grid-template-columns: 20% 20% 20% 20% 20%;
