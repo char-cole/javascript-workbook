@@ -26,7 +26,7 @@ export default class App extends Component {
     this.state = {
       photoIndex: 0,
       isOpen: false,
-      isLoaded: false,
+      isLoaded: false, /* Have not figured out spinner integration yet*/
     };
   }
 
@@ -43,7 +43,7 @@ export default class App extends Component {
 
     return (
       <div className="imageGallery">
-        <div className="displayImages grid-container">
+        <div className="grid-container">
           {urls.map(imageURL => this.renderImage(imageURL))}
         </div>
 
@@ -51,20 +51,21 @@ export default class App extends Component {
           <Lightbox
             mainSrc={urls[photoIndex].source}
             imageCaption={urls[photoIndex].alt}
+            onCloseRequest={() => this.setState({ isOpen: false })}
+            
             // Have not recovered image change functionality. Stuck looking at one at a time.
             // nextSrc={urls[(photoIndex + 1)].source % urls.length}
             // prevSrc={urls[(photoIndex - 1)].source % urls.length}
-            onCloseRequest={() => this.setState({ isOpen: false })}
-            onMovePrevRequest={() =>
-              this.setState({
-                photoIndex: (photoIndex + urls.length - 1) % urls.length,
-              })
-            }
-            onMoveNextRequest={() =>
-              this.setState({
-                photoIndex: (photoIndex + 1) % urls.length,
-              })
-            }
+            // onMovePrevRequest={() =>
+            //   this.setState({
+            //     photoIndex: (photoIndex + urls.length - 1) % urls.length,
+            //   })
+            // }
+            // onMoveNextRequest={() =>
+            //   this.setState({
+            //     photoIndex: (photoIndex + 1) % urls.length,
+            //   })
+            // }
           />
         )}
       </div>

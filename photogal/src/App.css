@@ -19,6 +19,7 @@ header {
 img {
   max-width: 100%;
   box-shadow: 0 0 4px grey;
+  transition-duration: .4s;
 }
 
 img:hover {
