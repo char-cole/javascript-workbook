@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import logo from './logo.svg';
+import Lightbox from 'react-images';
 import './Normalize.css';
 import './App.css';
+
 // import Images from './ImagesFromAPI';
 // import Gallery from './Gallery';
 
@@ -19,7 +21,7 @@ class App extends Component {
   render() {
     return (
       <div className="imageGallery">
-        <div className="displayImages">
+        <div className="displayImages grid-container">
           {this.props.imageURLs.map(imageURL => this.renderImage(imageURL))}
         </div>
       </div>
